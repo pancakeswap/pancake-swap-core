@@ -1,19 +1,12 @@
 {
-  "name": "@uniswap/v2-core",
-  "description": "🎛 Core contracts for the UniswapV2 protocol",
+  "name": "pancake/core",
+  "description": "🎛 Core contracts for the pancake protocol",
   "version": "1.0.1",
-  "homepage": "https://uniswap.org",
+  "homepage": "https://pancakeswap.finance",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Uniswap/uniswap-v2-core"
+    "url": "https://github.com/pancakeswap/pancake-swap-core.git"
   },
-  "keywords": [
-    "uniswap",
-    "ethereum",
-    "v2",
-    "core",
-    "uniswap-v2"
-  ],
   "files": [
     "contracts",
     "build"
@@ -31,6 +24,7 @@
     "prettier": "^1.19.1",
     "rimraf": "^3.0.0",
     "solc": "0.5.16",
+    "truffle-plugin-verify": "^0.4.0",
     "ts-node": "^8.5.4",
     "typescript": "^3.7.3"
   },
@@ -44,5 +38,10 @@
     "test": "mocha",
     "prepublishOnly": "yarn test"
   },
-  "license": "GPL-3.0-or-later"
+  "license": "GPL-3.0-or-later",
+  "dependencies": {
+    "truffle-hdwallet-provider": "^1.0.17",
+    "truffle": "^5.1.41",
+    "truffle-flattener": "^1.4.4"
+  }
 }
