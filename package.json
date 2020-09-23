@@ -1,7 +1,7 @@
 {
-  "name": "@pancakeswap/pancake-swap-core",
+  "name": "@pancakeswap-libs/pancake-swap-core",
   "description": "🎛 Core contracts for the pancake protocol",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "homepage": "https://pancakeswap.finance",
   "repository": {
     "type": "git",
