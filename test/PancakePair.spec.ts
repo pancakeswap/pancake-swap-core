@@ -91,10 +91,10 @@ describe('PancakePair', () => {
   })
 
   const optimisticTestCases: BigNumber[][] = [
-    ['997000000000000000', 5, 10, 1], // given amountIn, amountOut = floor(amountIn * .997)
-    ['997000000000000000', 10, 5, 1],
-    ['997000000000000000', 5, 5, 1],
-    [1, 5, 5, '1003009027081243732'] // given amountOut, amountIn = ceiling(amountOut / .997)
+    ['998000000000000000', 5, 10, 1], // given amountIn, amountOut = floor(amountIn * .998)
+    ['998000000000000000', 10, 5, 1],
+    ['998000000000000000', 5, 5, 1],
+    [1, 5, 5, '1002004008016032065'] // given amountOut, amountIn = ceiling(amountOut / .998)
   ].map(a => a.map(n => (typeof n === 'string' ? bigNumberify(n) : expandTo18Decimals(n))))
   optimisticTestCases.forEach((optimisticTestCase, i) => {
     it(`optimistic:${i}`, async () => {
