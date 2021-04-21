@@ -1,14 +1,19 @@
-import chai, { expect } from 'chai'
-import { Contract } from 'ethers'
-import { MaxUint256 } from 'ethers/constants'
-import { bigNumberify, hexlify, keccak256, defaultAbiCoder, toUtf8Bytes } from 'ethers/utils'
-import { solidity, MockProvider, deployContract } from 'ethereum-waffle'
-import { ecsign } from 'ethereumjs-util'
-
-import { expandTo18Decimals, getApprovalDigest } from './shared/utilities'
-
-import ERC20 from '../build/ERC20.json'
-
+// const chai = require('chai');
+const expect = require('chai').expect;
+const {Contract} = require('ethers');
+const MaxUint256 = require('ethers/constants').MaxUint256;
+const bigNumberify = require('ethers/utils').bigNumberify;
+const hexlify = require('ethers/utils').hexlify;
+const keccak256 = require('ethers/utils').keccak256;
+const defaultAbiCoder = require('ethers/utils').defaultAbiCoder;
+const toUtf8Bytes = require('ethers/utils').toUtf8Bytes;
+const solidity = require('ethereum-waffle').solidity;
+const MockProvider = require('ethereum-waffle').MockProvider;
+const deployContract = require('ethereum-waffle').deployContract;
+const ecsign = require('ethereumjs-util').ecsign;
+const expandTo18Decimals = require('./shared/utilities').expandTo18Decimals;
+const getApprovalDigest = require('./shared/utilities').getApprovalDigest;
+const ERC20 = require('../build/ERC20.json');
 chai.use(solidity)
 
 const TOTAL_SUPPLY = expandTo18Decimals(10000)
@@ -22,7 +27,7 @@ describe('PancakeERC20', () => {
   })
   const [wallet, other] = provider.getWallets()
 
-  let token: Contract
+  let token = typeof Contract
   beforeEach(async () => {
     token = await deployContract(wallet, ERC20, [TOTAL_SUPPLY])
   })

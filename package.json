@@ -27,11 +27,15 @@
     "prettier": "^1.19.1",
     "rimraf": "^3.0.0",
     "solc": "0.5.16",
-    "truffle-plugin-verify": "^0.4.0",
+    "truffle-plugin-verify": "^0.4.6",
     "ts-node": "^8.5.4",
     "typescript": "^3.7.3"
   },
   "scripts": {
+    "deploy": "truffle migrate --network bscTestnet --reset && truffle run verify PancakeFactory --network bscTestnet",
+    "comment1": "        ",
+    "comment2": "        ",
+    "comment3": "        ",
     "lint": "yarn prettier ./test/*.ts --check",
     "lint:fix": "yarn prettier ./test/*.ts --write",
     "clean": "rimraf ./build/",
@@ -43,8 +47,10 @@
   },
   "license": "GPL-3.0-or-later",
   "dependencies": {
-    "truffle-hdwallet-provider": "^1.0.17",
+    "@truffle/hdwallet-provider": "^1.2.6",
+    "dotenv": "^8.2.0",
     "truffle": "^5.1.41",
-    "truffle-flattener": "^1.4.4"
+    "truffle-flattener": "^1.4.4",
+    "truffle-hdwallet-provider": "^1.0.17"
   }
 }
