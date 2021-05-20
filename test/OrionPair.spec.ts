@@ -15,7 +15,7 @@ const overrides = {
   gasLimit: 9999999
 }
 
-describe('PancakePair', () => {
+describe('OrionPair', () => {
   const provider = new MockProvider({
     hardfork: 'istanbul',
     mnemonic: 'horn horn horn horn horn horn horn horn horn horn horn horn',
@@ -68,41 +68,41 @@ describe('PancakePair', () => {
     await pair.mint(wallet.address, overrides)
   }
   const swapTestCases: BigNumber[][] = [
-    [1, 5, 10, '1663887962654218072'],
-    [1, 10, 5, '453718857974177123'],
+    [1, 5, 10, '1664165916441599146'],
+    [1, 10, 5, '453801531159644305'],
 
-    [2, 5, 10, '2853058890794739851'],
-    [2, 10, 5, '831943981327109036'],
+    [2, 5, 10, '2853467497570178949'],
+    [2, 10, 5, '832082958220799573'],
 
-    [1, 10, 10, '907437715948354246'],
-    [1, 100, 100, '988138378977801540'],
-    [1, 1000, 1000, '997004989020957084']
+    [1, 10, 10, '907603062319288610'],
+    [1, 100, 100, '988334445564376394'],
+    [1, 1000, 1000, '997204590377884795']
   ].map(a => a.map(n => (typeof n === 'string' ? bigNumberify(n) : expandTo18Decimals(n))))
   swapTestCases.forEach((swapTestCase, i) => {
     it(`getInputPrice:${i}`, async () => {
       const [swapAmount, token0Amount, token1Amount, expectedOutputAmount] = swapTestCase
       await addLiquidity(token0Amount, token1Amount)
       await token0.transfer(pair.address, swapAmount)
-      await expect(pair.swap(0, expectedOutputAmount.add(1), wallet.address, '0x', overrides)).to.be.revertedWith(
-        'Pancake: K'
+      await expect(pair.swap(0, expectedOutputAmount.add(1), wallet.address, overrides)).to.be.revertedWith(
+        'Orion: K'
       )
-      await pair.swap(0, expectedOutputAmount, wallet.address, '0x', overrides)
+      await pair.swap(0, expectedOutputAmount, wallet.address, overrides)
     })
   })
 
   const optimisticTestCases: BigNumber[][] = [
-    ['998000000000000000', 5, 10, 1], // given amountIn, amountOut = floor(amountIn * .998)
-    ['998000000000000000', 10, 5, 1],
-    ['998000000000000000', 5, 5, 1],
-    [1, 5, 5, '1002004008016032065'] // given amountOut, amountIn = ceiling(amountOut / .998)
+    ['998200000000000000', 5, 10, 1], // given amountIn, amountOut = floor(amountIn * .9982)
+    ['998200000000000000', 10, 5, 1],
+    ['998200000000000000', 5, 5, 1],
+    [1, 5, 5, '1001803245842516530'] // given amountOut, amountIn = ceiling(amountOut / .9982)
   ].map(a => a.map(n => (typeof n === 'string' ? bigNumberify(n) : expandTo18Decimals(n))))
   optimisticTestCases.forEach((optimisticTestCase, i) => {
     it(`optimistic:${i}`, async () => {
       const [outputAmount, token0Amount, token1Amount, inputAmount] = optimisticTestCase
       await addLiquidity(token0Amount, token1Amount)
       await token0.transfer(pair.address, inputAmount)
-      await expect(pair.swap(outputAmount.add(1), 0, wallet.address, '0x', overrides)).to.be.revertedWith('Pancake: K')
-      await pair.swap(outputAmount, 0, wallet.address, '0x', overrides)
+      await expect(pair.swap(outputAmount.add(1), 0, wallet.address, overrides)).to.be.revertedWith('Orion: K')
+      await pair.swap(outputAmount, 0, wallet.address, overrides)
     })
   })
 
@@ -114,7 +114,7 @@ describe('PancakePair', () => {
     const swapAmount = expandTo18Decimals(1)
     const expectedOutputAmount = bigNumberify('1662497915624478906')
     await token0.transfer(pair.address, swapAmount)
-    await expect(pair.swap(0, expectedOutputAmount, wallet.address, '0x', overrides))
+    await expect(pair.swap(0, expectedOutputAmount, wallet.address, overrides))
       .to.emit(token1, 'Transfer')
       .withArgs(pair.address, wallet.address, expectedOutputAmount)
       .to.emit(pair, 'Sync')
@@ -141,7 +141,7 @@ describe('PancakePair', () => {
     const swapAmount = expandTo18Decimals(1)
     const expectedOutputAmount = bigNumberify('453305446940074565')
     await token1.transfer(pair.address, swapAmount)
-    await expect(pair.swap(expectedOutputAmount, 0, wallet.address, '0x', overrides))
+    await expect(pair.swap(expectedOutputAmount, 0, wallet.address, overrides))
       .to.emit(token0, 'Transfer')
       .withArgs(pair.address, wallet.address, expectedOutputAmount)
       .to.emit(pair, 'Sync')
@@ -173,9 +173,9 @@ describe('PancakePair', () => {
     const expectedOutputAmount = bigNumberify('453305446940074565')
     await token1.transfer(pair.address, swapAmount)
     await mineBlock(provider, (await provider.getBlock('latest')).timestamp + 1)
-    const tx = await pair.swap(expectedOutputAmount, 0, wallet.address, '0x', overrides)
+    const tx = await pair.swap(expectedOutputAmount, 0, wallet.address, overrides)
     const receipt = await tx.wait()
-    expect(receipt.gasUsed).to.eq(73462)
+    expect(receipt.gasUsed).to.eq(72983)
   })
 
   it('burn', async () => {
@@ -225,7 +225,7 @@ describe('PancakePair', () => {
     await token0.transfer(pair.address, swapAmount)
     await mineBlock(provider, blockTimestamp + 10)
     // swap to a new price eagerly instead of syncing
-    await pair.swap(0, expandTo18Decimals(1), wallet.address, '0x', overrides) // make the price nice
+    await pair.swap(0, expandTo18Decimals(1), wallet.address, overrides) // make the price nice
 
     expect(await pair.price0CumulativeLast()).to.eq(initialPrice[0].mul(10))
     expect(await pair.price1CumulativeLast()).to.eq(initialPrice[1].mul(10))
@@ -248,7 +248,7 @@ describe('PancakePair', () => {
     const swapAmount = expandTo18Decimals(1)
     const expectedOutputAmount = bigNumberify('996006981039903216')
     await token1.transfer(pair.address, swapAmount)
-    await pair.swap(expectedOutputAmount, 0, wallet.address, '0x', overrides)
+    await pair.swap(expectedOutputAmount, 0, wallet.address, overrides)
 
     const expectedLiquidity = expandTo18Decimals(1000)
     await pair.transfer(pair.address, expectedLiquidity.sub(MINIMUM_LIQUIDITY))
@@ -262,21 +262,28 @@ describe('PancakePair', () => {
     const token0Amount = expandTo18Decimals(1000)
     const token1Amount = expandTo18Decimals(1000)
     await addLiquidity(token0Amount, token1Amount)
+    const liquidBalance = await pair.balanceOf(wallet.address)
 
     const swapAmount = expandTo18Decimals(1)
-    const expectedOutputAmount = bigNumberify('996006981039903216')
+    const expectedOutputAmount = bigNumberify('997204590377884795')
     await token1.transfer(pair.address, swapAmount)
-    await pair.swap(expectedOutputAmount, 0, wallet.address, '0x', overrides)
+    await pair.swap(expectedOutputAmount, 0, wallet.address, overrides)
 
     const expectedLiquidity = expandTo18Decimals(1000)
     await pair.transfer(pair.address, expectedLiquidity.sub(MINIMUM_LIQUIDITY))
     await pair.burn(wallet.address, overrides)
-    expect(await pair.totalSupply()).to.eq(MINIMUM_LIQUIDITY.add('374625795658571'))
-    expect(await pair.balanceOf(other.address)).to.eq('374625795658571')
+    const totalSupply = await pair.totalSupply();
+    const balance = await pair.balanceOf(other.address);
+    const token0Balance = await token0.balanceOf(pair.address);
+    const token1Balance = await token1.balanceOf(pair.address);
+
+    
+    expect(await pair.totalSupply()).to.eq(MINIMUM_LIQUIDITY.add('74925114221478'))
+    expect(await pair.balanceOf(other.address)).to.eq('74925114221478')
 
     // using 1000 here instead of the symbolic MINIMUM_LIQUIDITY because the amounts only happen to be equal...
     // ...because the initial liquidity amounts were equal
-    expect(await token0.balanceOf(pair.address)).to.eq(bigNumberify(1000).add('374252525546167'))
-    expect(await token1.balanceOf(pair.address)).to.eq(bigNumberify(1000).add('375000280969452'))
+    expect(await token0.balanceOf(pair.address)).to.eq(bigNumberify(1000).add('74850392945467'))
+    expect(await token1.balanceOf(pair.address)).to.eq(bigNumberify(1000).add('75000033716315'))
   })
 })

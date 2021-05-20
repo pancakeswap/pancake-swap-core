@@ -1,11 +1,11 @@
 {
-  "name": "@pancakeswap-libs/pancake-swap-core",
-  "description": "🎛 Core contracts for the pancake protocol",
+  "name": "@orionswap-libs/orionswap-core",
+  "description": "🎛 Core contracts for the OrionSwap protocol",
   "version": "0.1.0",
-  "homepage": "https://pancakeswap.finance",
+  "homepage": "https://OrionSwap.finance",
   "repository": {
     "type": "git",
-    "url": "https://github.com/pancakeswap/pancake-swap-core.git"
+    "url": "https://github.com/OrionSwap/orionswap-core.git"
   },
   "publishConfig": {
     "registry": "http://registry.npmjs.org"

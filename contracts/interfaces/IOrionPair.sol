@@ -1,6 +1,6 @@
 pragma solidity >=0.5.0;
 
-interface IPancakePair {
+interface IOrionPair {
     event Approval(address indexed owner, address indexed spender, uint value);
     event Transfer(address indexed from, address indexed to, uint value);
 
@@ -44,7 +44,7 @@ interface IPancakePair {
 
     function mint(address to) external returns (uint liquidity);
     function burn(address to) external returns (uint amount0, uint amount1);
-    function swap(uint amount0Out, uint amount1Out, address to, bytes calldata data) external;
+    function swap(uint amount0Out, uint amount1Out, address to) external;
     function skim(address to) external;
     function sync() external;
 
