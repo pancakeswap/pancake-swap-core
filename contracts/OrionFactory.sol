@@ -4,8 +4,6 @@ import './interfaces/IOrionFactory.sol';
 import './OrionPair.sol';
 
 contract OrionFactory is IOrionFactory {
-    bytes32 public constant INIT_CODE_PAIR_HASH = keccak256(abi.encodePacked(type(OrionPair).creationCode));
-
     address public feeTo;
     address public feeToSetter;
 
