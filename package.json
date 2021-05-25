@@ -34,6 +34,7 @@
   "scripts": {
     "lint": "yarn prettier ./test/*.ts --check",
     "lint:fix": "yarn prettier ./test/*.ts --write",
+    "migrate": "truffle migrate --network test --reset",
     "clean": "rimraf ./build/",
     "precompile": "yarn clean",
     "compile": "waffle .waffle.json",
