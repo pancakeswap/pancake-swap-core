@@ -85,7 +85,7 @@ contract PancakePair is IPancakePair, PancakeERC20 {
         emit Sync(reserve0, reserve1);
     }
 
-    // if fee is on, mint liquidity equivalent to 1/6th of the growth in sqrt(k)
+    // if fee is on, mint liquidity equivalent to 1/4th of the growth in sqrt(k)
     function _mintFee(uint112 _reserve0, uint112 _reserve1) private returns (bool feeOn) {
         address feeTo = IPancakeFactory(factory).feeTo();
         feeOn = feeTo != address(0);
